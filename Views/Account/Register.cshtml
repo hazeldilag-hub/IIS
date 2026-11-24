@@ -1,0 +1,542 @@
+@model InstructorInfoSystem.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .register-page {
+        min-height: calc(100vh - 80px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 35px 20px;
+        background: #f1f5f9;
+    }
+
+    .register-container {
+        width: 100%;
+        max-width: 1000px;
+        display: grid;
+        grid-template-columns: .85fr 1.15fr;
+        background: white;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 15px 45px rgba(15, 23, 42, .08);
+        border: 1px solid #e2e8f0;
+    }
+
+    /* LEFT BRAND PANEL */
+
+    .register-brand {
+        background: linear-gradient(145deg, #0f172a, #134e4a, #0d9488);
+        padding: 45px 38px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .register-brand::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 1px solid rgba(255,255,255,.10);
+            border-radius: 50%;
+            right: -140px;
+            top: 100px;
+            box-shadow: 0 0 0 35px rgba(255,255,255,.03), 0 0 0 70px rgba(255,255,255,.02);
+        }
+
+    .brand-content,
+    .brand-logo,
+    .brand-footer {
+        position: relative;
+        z-index: 1;
+    }
+
+    .brand-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .logo-icon {
+        width: 45px;
+        height: 45px;
+        background: rgba(255,255,255,.15);
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 21px;
+    }
+
+    .logo-text {
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.4;
+    }
+
+    .brand-content {
+        margin: 75px 0;
+    }
+
+    .brand-tag {
+        display: inline-block;
+        padding: 7px 12px;
+        border-radius: 20px;
+        background: rgba(45,212,191,.15);
+        color: #99f6e4;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+    }
+
+    .brand-content h2 {
+        font-size: 31px;
+        font-weight: 750;
+        line-height: 1.3;
+        margin-bottom: 17px;
+    }
+
+    .brand-content p {
+        color: #cbd5e1;
+        font-size: 13px;
+        line-height: 1.9;
+    }
+
+    .brand-features {
+        margin-top: 28px;
+    }
+
+    .brand-feature {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-bottom: 16px;
+        font-size: 12px;
+        color: #dbeafe;
+    }
+
+        .brand-feature i {
+            color: #5eead4;
+            font-size: 16px;
+        }
+
+    .brand-footer {
+        font-size: 10px;
+        color: #94a3b8;
+    }
+
+    /* RIGHT FORM */
+
+    .register-form-panel {
+        padding: 42px 48px;
+    }
+
+    .form-heading {
+        margin-bottom: 27px;
+    }
+
+        .form-heading span {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #0d9488;
+        }
+
+        .form-heading h2 {
+            font-size: 27px;
+            font-weight: 750;
+            color: #0f172a;
+            margin: 8px 0;
+        }
+
+        .form-heading p {
+            font-size: 12px;
+            color: #64748b;
+            margin: 0;
+        }
+
+    .form-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: #334155;
+        margin-bottom: 7px;
+    }
+
+    .form-control {
+        height: 44px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background: #f8fafc;
+        font-size: 12px;
+        padding: 10px 13px;
+        color: #0f172a;
+        transition: .2s;
+    }
+
+        .form-control:focus {
+            background: white;
+            border-color: #0d9488;
+            box-shadow: 0 0 0 3px rgba(13,148,136,.10);
+        }
+
+    .password-wrapper {
+        position: relative;
+    }
+
+        .password-wrapper .form-control {
+            padding-right: 43px;
+        }
+
+    .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: #64748b;
+        cursor: pointer;
+        font-size: 15px;
+        z-index: 2;
+    }
+
+        .password-toggle:hover {
+            color: #0d9488;
+        }
+
+    .validation-summary {
+        font-size: 12px;
+        border-radius: 8px;
+    }
+
+    .text-danger {
+        font-size: 10px;
+        color: #dc2626 !important;
+    }
+
+    .register-button {
+        width: 100%;
+        height: 46px;
+        border: none;
+        border-radius: 8px;
+        background: #0d9488;
+        color: white;
+        font-size: 13px;
+        font-weight: 700;
+        margin-top: 10px;
+        transition: .2s;
+    }
+
+        .register-button:hover {
+            background: #0f766e;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(13,148,136,.20);
+        }
+
+    .login-section {
+        text-align: center;
+        margin-top: 22px;
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .login-link {
+        color: #0d9488;
+        font-weight: 700;
+        text-decoration: none;
+        margin-left: 3px;
+    }
+
+        .login-link:hover {
+            color: #0f766e;
+            text-decoration: underline;
+        }
+
+    /* RESPONSIVE */
+
+    @@media (max-width: 768px) {
+        .register-page {
+            padding: 20px 14px;
+        }
+
+        .register-container {
+            grid-template-columns: 1fr;
+            max-width: 480px;
+        }
+
+        .register-brand {
+            padding: 28px;
+        }
+
+        .brand-content {
+            margin: 35px 0 20px;
+        }
+
+            .brand-content h2 {
+                font-size: 25px;
+            }
+
+            .brand-content p {
+                font-size: 12px;
+            }
+
+        .brand-features {
+            margin-top: 18px;
+        }
+
+        .brand-feature {
+            margin-bottom: 10px;
+        }
+
+        .brand-footer {
+            display: none;
+        }
+
+        .register-form-panel {
+            padding: 35px 28px;
+        }
+    }
+
+    @@media (max-width: 380px) {
+        .register-form-panel {
+            padding: 28px 20px;
+        }
+
+        .register-brand {
+            padding: 23px 20px;
+        }
+    }
+</style>
+
+<div class="register-page">
+
+    <div class="register-container">
+
+        <!-- LEFT BRAND PANEL -->
+
+        <div class="register-brand">
+
+            <div class="brand-logo">
+                <div class="logo-icon">
+                    <i class="bi bi-mortarboard-fill"></i>
+                </div>
+
+                <div class="logo-text">
+                    Instructor Information<br />
+                    System
+                </div>
+            </div>
+
+            <div class="brand-content">
+
+                <span class="brand-tag">NEW ACCOUNT</span>
+
+                <h2>Start Managing Your Information.</h2>
+
+                <p>
+                    Create your account to access the Instructor
+                    Information System and manage your account
+                    information in one centralized platform.
+                </p>
+
+                <div class="brand-features">
+                    <div class="brand-feature">
+                        <i class="bi bi-shield-check"></i>
+                        Secure account registration
+                    </div>
+
+                    <div class="brand-feature">
+                        <i class="bi bi-person-check"></i>
+                        Personalized account access
+                    </div>
+
+                    <div class="brand-feature">
+                        <i class="bi bi-database-check"></i>
+                        Organized information management
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="brand-footer">
+                <i class="bi bi-shield-lock"></i>
+                &nbsp; Instructor Information System
+            </div>
+
+        </div>
+
+        <!-- RIGHT REGISTRATION FORM -->
+
+        <div class="register-form-panel">
+
+            <div class="form-heading">
+                <span>ACCOUNT REGISTRATION</span>
+                <h2>Create Account</h2>
+                <p>Fill in the details below to register your account.</p>
+            </div>
+
+            <form asp-controller="Account"
+                  asp-action="Register"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="All"
+                     class="text-danger small mb-3 validation-summary">
+                </div>
+
+                <!-- NAME FIELDS -->
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="FirstName" class="form-label">
+                            First Name
+                        </label>
+
+                        <input asp-for="FirstName"
+                               class="form-control"
+                               placeholder="Enter first name"
+                               autocomplete="given-name" />
+
+                        <span asp-validation-for="FirstName"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="LastName" class="form-label">
+                            Last Name
+                        </label>
+
+                        <input asp-for="LastName"
+                               class="form-control"
+                               placeholder="Enter last name"
+                               autocomplete="family-name" />
+
+                        <span asp-validation-for="LastName"
+                              class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- EMAIL -->
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">
+                        Email Address
+                    </label>
+
+                    <input asp-for="Email"
+                           type="email"
+                           class="form-control"
+                           placeholder="Enter your email address"
+                           autocomplete="email" />
+
+                    <span asp-validation-for="Email"
+                          class="text-danger"></span>
+                </div>
+
+                <!-- PASSWORD -->
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">
+                        Password
+                    </label>
+
+                    <div class="password-wrapper">
+                        <input asp-for="Password"
+                               type="password"
+                               id="registerPassword"
+                               class="form-control"
+                               placeholder="Create a password"
+                               autocomplete="new-password" />
+
+                        <button type="button"
+                                class="password-toggle"
+                                onclick="toggleRegisterPassword('registerPassword', 'registerPasswordIcon')"
+                                aria-label="Show or hide password">
+                            <i class="bi bi-eye" id="registerPasswordIcon"></i>
+                        </button>
+                    </div>
+
+                    <span asp-validation-for="Password"
+                          class="text-danger"></span>
+                </div>
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="mb-3">
+                    <label asp-for="ConfirmPassword" class="form-label">
+                        Confirm Password
+                    </label>
+
+                    <div class="password-wrapper">
+                        <input asp-for="ConfirmPassword"
+                               type="password"
+                               id="confirmRegisterPassword"
+                               class="form-control"
+                               placeholder="Confirm your password"
+                               autocomplete="new-password" />
+
+                        <button type="button"
+                                class="password-toggle"
+                                onclick="toggleRegisterPassword('confirmRegisterPassword', 'confirmPasswordIcon')"
+                                aria-label="Show or hide confirm password">
+                            <i class="bi bi-eye" id="confirmPasswordIcon"></i>
+                        </button>
+                    </div>
+
+                    <span asp-validation-for="ConfirmPassword"
+                          class="text-danger"></span>
+                </div>
+
+                <!-- SUBMIT -->
+
+                <button type="submit" class="register-button">
+                    Create Account
+                    <i class="bi bi-arrow-right ms-2"></i>
+                </button>
+
+            </form>
+
+            <div class="login-section">
+                Already have an account?
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   class="login-link">
+                    Sign In
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function toggleRegisterPassword(inputId, iconId) {
+        const passwordInput = document.getElementById(inputId);
+        const passwordIcon = document.getElementById(iconId);
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            passwordIcon.classList.replace("bi-eye", "bi-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            passwordIcon.classList.replace("bi-eye-slash", "bi-eye");
+        }
+    }
+</script>

@@ -1,0 +1,353 @@
+ @{
+    ViewData["Title"] = "Dashboard";
+
+    var totalInstructors = ViewBag.TotalInstructors is int count
+        ? count : 0;
+
+    var firstName = User.FindFirst("FirstName")?.Value ?? "User";
+    var lastName = User.FindFirst("LastName")?.Value ?? "";
+    var email = User.Identity?.Name ?? "";
+
+    var initial = string.IsNullOrWhiteSpace(firstName)
+        ? "U"
+        : firstName.Substring(0, 1).ToUpper();
+}
+
+<div class="dashboard-page">
+
+    <!-- WELCOME SECTION -->
+
+    <div class="welcome-section">
+
+        <div class="welcome-content">
+            <span class="welcome-label">
+                <i class="bi bi-grid-1x2-fill"></i>
+                DASHBOARD OVERVIEW
+            </span>
+
+            <h2>Welcome back, @firstName!</h2>
+
+            <p>
+                Manage your instructor information and account activities
+                through your centralized management dashboard.
+            </p>
+
+            <a asp-controller="Instructors"
+               asp-action="Index"
+               class="welcome-button">
+                Explore Instructors
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="welcome-avatar">
+            @initial
+        </div>
+
+        <div class="welcome-decoration"></div>
+
+    </div>
+
+    <!-- DASHBOARD STATISTICS AND ACTIONS -->
+
+    <div class="section-heading">
+        <div>
+            <span class="section-label">MANAGEMENT CENTER</span>
+            <h4>System Overview</h4>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+
+        <!-- TOTAL INSTRUCTORS -->
+
+        <div class="dashboard-card total-card">
+
+            <div class="card-top">
+                <div>
+                    <span class="card-label">TOTAL INSTRUCTORS</span>
+                    <h1>@totalInstructors</h1>
+                    <p>Registered instructor records</p>
+                </div>
+
+                <div class="card-icon blue-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+            </div>
+
+            <div class="card-divider"></div>
+
+            <a asp-controller="Instructors"
+               asp-action="Index"
+               class="card-link">
+                View all instructors
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+        <!-- ADD INSTRUCTOR -->
+
+        <div class="dashboard-card action-card">
+
+            <div class="card-icon cyan-icon">
+                <i class="bi bi-person-plus-fill"></i>
+            </div>
+
+            <h5>Add New Instructor</h5>
+
+            <p>
+                Register a new instructor and add their personal
+                and professional information.
+            </p>
+
+            <a asp-controller="Instructors"
+               asp-action="Create"
+               class="dashboard-button">
+                Add Instructor
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+        <!-- MANAGE RECORDS -->
+
+        <div class="dashboard-card action-card">
+
+            <div class="card-icon navy-icon">
+                <i class="bi bi-clipboard-data-fill"></i>
+            </div>
+
+            <h5>Manage Records</h5>
+
+            <p>
+                Search, view, edit, and manage existing
+                instructor information.
+            </p>
+
+            <a asp-controller="Instructors"
+               asp-action="Index"
+               class="dashboard-button navy-button">
+                Manage Records
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ACCOUNT INFORMATION -->
+
+    <div class="account-card">
+
+        <div class="account-header">
+
+            <div class="account-title">
+                <div class="account-icon">
+                    <i class="bi bi-person-vcard-fill"></i>
+                </div>
+
+                <div>
+                    <h5>Account Information</h5>
+                    <p>Your registered account details.</p>
+                </div>
+            </div>
+
+            <span class="account-status">
+                <span class="status-dot"></span>
+                Active Account
+            </span>
+
+        </div>
+
+        <div class="account-details">
+
+            <div class="account-detail">
+                <div class="detail-icon">
+                    <i class="bi bi-person"></i>
+                </div>
+
+                <div>
+                    <span>First Name</span>
+                    <strong>@firstName</strong>
+                </div>
+            </div>
+
+            <div class="account-detail">
+                <div class="detail-icon">
+                    <i class="bi bi-person-vcard"></i>
+                </div>
+
+                <div>
+                    <span>Last Name</span>
+                    <strong>@lastName</strong>
+                </div>
+            </div>
+
+            <div class="account-detail">
+                <div class="detail-icon">
+                    <i class="bi bi-envelope"></i>
+                </div>
+
+                <div>
+                    <span>Email Address</span>
+                    <strong>@email</strong>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="account-footer">
+
+            <div>
+                <strong>Personal Account Settings</strong>
+                <p>View your registered account information.</p>
+            </div>
+
+            <a asp-controller="Account"
+               asp-action="Profile"
+               class="profile-button">
+                <i class="bi bi-person-circle"></i>
+                View My Profile
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+    /* MAIN DASHBOARD */
+
+    .dashboard-page {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 30px 22px;
+        color: #0f172a;
+    }
+
+    /* WELCOME SECTION */
+
+    .welcome-section {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        overflow: hidden;
+        background: linear-gradient(120deg, #0f172a, #172554, #2563eb);
+        color: white;
+        padding: 35px 40px;
+        border-radius: 15px;
+        margin-bottom: 35px;
+        box-shadow: 0 8px 25px rgba(30, 64, 175, .12);
+    }
+
+    .welcome-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .welcome-label {
+        color: #bfdbfe;
+        font-size: 10px;
+        letter-spacing: 1.8px;
+        font-weight: 800;
+    }
+
+    .welcome-label i {
+        margin-right: 5px;
+    }
+
+    .welcome-section h2 {
+        font-size: 28px;
+        font-weight: 750;
+        margin: 12px 0 8px;
+    }
+
+    .welcome-section p {
+        color: #dbeafe;
+        font-size: 13px;
+        max-width: 520px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .welcome-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 10px 16px;
+        background: white;
+        color: #1d4ed8;
+        text-decoration: none;
+        border-radius: 7px;
+        font-size: 12px;
+        font-weight: 700;
+        transition: .2s;
+    }
+
+    .welcome-button:hover {
+        background: #dbeafe;
+        color: #1e40af;
+        transform: translateY(-2px);
+    }
+
+    .welcome-avatar {
+        position: relative;
+        z-index: 2;
+        width: 75px;
+        height: 75px;
+        min-width: 75px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.15);
+        border: 2px solid rgba(255,255,255,.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 29px;
+        font-weight: 750;
+        color: white;
+    }
+
+    .welcome-decoration {
+        position: absolute;
+        width: 280px;
+        height: 280px;
+        border: 1px solid rgba(255,255,255,.10);
+        border-radius: 50%;
+        right: -80px;
+        top: -130px;
+        box-shadow: 0 0 0 35px rgba(255,255,255,.025),
+                    0 0 0 70px rgba(255,255,255,.02);
+    }
+
+    /* SECTION HEADING */
+
+    .section-heading {
+        margin-bottom: 17px;
+    }
+
+    .section-label {
+        color: #2563eb;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1.4px;
+    }
+
+    .section-heading h4 {
+        color: #0f172a;
+        font-size: 19px;
+        font-weight: 750;
+        margin: 5px 0 0;
+    }
+
+    /* DASHBOARD GRID */
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap
